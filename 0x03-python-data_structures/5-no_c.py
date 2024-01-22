@@ -5,4 +5,3 @@ def no_c(my_string):
         if letter != 'c' and letter != 'C':
             result.append(letter)
     return ''.join(result)
-
