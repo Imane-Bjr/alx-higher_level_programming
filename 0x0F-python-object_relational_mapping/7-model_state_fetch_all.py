@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Fetch All the Data From the table states"""
+
 import sys
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
