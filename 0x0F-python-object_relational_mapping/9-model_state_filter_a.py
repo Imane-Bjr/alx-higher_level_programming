@@ -1,22 +1,22 @@
 #!/usr/bin/python3
-"""Start link class to table in database
-"""
+"""Fetch All the Data From the table states"""
 import sys
-from model_state import Base, State
 from sqlalchemy import create_engine, select
+from sqlalchemy.orm import sessionmaker
+from model_state import Base, State
+
 
 if __name__ == "__main__":
-    engine = create_engine(
-        "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-            sys.argv[1], sys.argv[2], sys.argv[3]
-        ),
-        pool_pre_ping=True,
-    )
-    with engine.connect() as connection:
-        query = select(State).order_by(State.id.asc()) \
-            .where(State.name.like("%a%"))
-        states = connection.execute(query)
-        for state in states:
-            print(f"{state.id}: {state.name}")
-
-    engine.dispose()
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
+    sentence = 'mysql+mysqldb://{}:{}@localhost/{}'
+    engine = create_engine(sentence.format(
+        username, password, database), pool_pre_ping=True)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    states = session.query(State).\
+        filter(State.name.like(f'%a%')).order_by(State.id.asc()).all()
+    for state in states:
+        print('{}: {}'.format(state.id, state.name))
