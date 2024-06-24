@@ -28,7 +28,8 @@ if __name__ == "__main__":
     database_name = sys.argv[3]
 
     # Create engine to connect to the MySQL database
-    engine = create_engine(f'mysql+mysqldb://{username}:{password}@localhost:3306/{database_name}', pool_pre_ping=True)
+    engine = create_engine(f'mysql+mysqldb://{username}:{password}@localhost:3306/{database_name}', 
+            pool_pre_ping=True)
 
     # Create all tables in the database
     Base.metadata.create_all(engine)
